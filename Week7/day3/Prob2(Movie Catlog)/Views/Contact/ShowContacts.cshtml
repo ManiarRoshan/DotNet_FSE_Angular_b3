@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ContactInfo>
+
+<div class="container">
+    <h2 class="my-4">Contact List</h2>
+    <a asp-action="AddContact" class="btn btn-primary mb-3">Add New Contact</a>
+    
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Company</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ContactId</td>
+                    <td>@item.FirstName @item.LastName</td>
+                    <td>@item.CompanyName</td>
+                    <td>@item.EmailId</td>
+                    <td>
+                        <a asp-action="GetContactById" asp-route-id="@item.ContactId" class="btn btn-sm btn-info">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

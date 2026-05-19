@@ -1,0 +1,27 @@
+﻿@{
+    ViewData["Title"] = "Simple Calculator";
+}
+
+<h2>Simple Addition Calculator</h2>
+<hr />
+
+
+<form action="/calculator/add" method="post">
+    <div class="mb-3">
+        <label>Enter First Number:</label>
+        <input type="number" step="any" name="num1" value="@ViewData["Num1"]" required class="form-control" />
+    </div>
+    <div class="mb-3">
+        <label>Enter Second Number:</label>
+        <input type="number" step="any" name="num2" value="@ViewData["Num2"]" required class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Calculate Sum</button>
+</form>
+
+@if (ViewData["CalculationResult"] != null)
+{
+    <div class="mt-4 alert alert-success">
+        <h4>Result:</h4>
+        <p>@ViewData["CalculationResult"]</p>
+    </div>
+}

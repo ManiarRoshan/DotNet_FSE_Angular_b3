@@ -1,0 +1,9 @@
+﻿@model ContactManagementWebApplication.Models.ContactInfo
+
+<h2>Contact Details</h2>
+<div>
+    <p><strong>Full Name:</strong> @Model.FirstName @Model.LastName</p>
+    <p><strong>Designation:</strong> @Model.Designation</p>
+    <p><strong>Mobile:</strong> @Model.MobileNo</p>
+</div>
+<a asp-action="ShowContacts">Back to List</a>
