@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Theme Toggle with LocalStorage</title>
+    <style>
+        /* 1. DEFINE LIGHT MODE (Default) */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --btn-bg: #eeeeee;
+        }
+
+        /* 2. DEFINE DARK MODE COLORS */
+        body.dark-mode {
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --btn-bg: #444444;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            transition: 0.3s; /* Smooth transition */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            border: 1px solid var(--text-color);
+            border-radius: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: var(--btn-bg);
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Theme Toggle Application</h1>
+        <p>Your preference will be saved in <b>localStorage</b>.</p>
+        <button id="theme-toggle">Switch to Dark Mode</button>
+    </div>
+
+    <script>
+        // Use DOMContentLoaded to ensure HTML is loaded before running script
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. SELECT ELEMENTS & DEFINE CONSTANTS
+            const themeBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+            const storageKey = 'themePreference';
+
+            // 2. INITIAL LOAD: Check localStorage for saved theme
+            const savedTheme = localStorage.getItem(storageKey);
+
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeBtn.innerText = "Switch to Light Mode";
+            }
+
+            // 3. CLICK EVENT: Toggle theme and update storage
+            themeBtn.addEventListener('click', () => {
+                // Toggle the CSS class
+                body.classList.toggle('dark-mode');
+
+                // Check current state to update text and storage
+                if (body.classList.contains('dark-mode')) {
+                    themeBtn.innerText = "Switch to Light Mode";
+                    localStorage.setItem(storageKey, 'dark');
+                } else {
+                    themeBtn.innerText = "Switch to Dark Mode";
+                    localStorage.setItem(storageKey, 'light');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

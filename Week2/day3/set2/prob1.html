@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Feedback Button</title>
+    <style>
+        .container {
+            text-align: center;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #p1 {
+            color: rgb(30, 200, 3);
+            font-size: x-large;
+
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        <center>Interactive Feedback Button</center>
+    </h1>
+
+    <div class="container">
+        <button id="b1">Submit</button>
+        <p id="p1"></p>
+    </div>
+    <script>
+        let buttonobj = document.getElementById("b1");
+        buttonobj.addEventListener("click", function () {
+            let displayobj = document.getElementById("p1")
+            displayobj.innerText = "Thanks for submission!!!"
+
+
+
+
+        })
+    </script>
+</body>
+
+</html>

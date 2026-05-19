@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Live Form Validation</title>
+</head>
+
+<body>
+    <h2>User Registration</h2>
+
+    <form id="regForm">
+
+        <input type="text" id="userName" placeholder="Name" onchange="validateName(this.value)">
+        <p id="nameError" style="color:red"></p>
+
+
+        <input type="email" id="userEmail" placeholder="Email" onchange="validateEmail(this.value)">
+        <p id="emailError" style="color:red"></p>
+
+
+        <input type="number" id="userAge" placeholder="Age" onchange="validateAge(this.value)">
+        <p id="ageError" style="color:red"></p>
+
+        <button type="button" onclick="saveData()">Register</button>
+    </form>
+
+    <script>
+        // Validation logic
+        function validateName(value) {
+            const error=document.getElementById('nameError');
+            error.innerText=value.trim()===""?"Name cannot be empty" : "";
+        }
+
+        function validateEmail(value) {
+            const error = document.getElementById('emailError');
+            error.innerText =! value.includes("@") ? "Email must contain @" : "";
+        }
+
+        function validateAge(value) {
+            const error = document.getElementById('ageError');
+            error.innerText = value <= 18 ? "Age must be greater than 18" : "";
+        }
+
+        // Saving to sessionStorage
+        function saveData() {
+            const name = document.getElementById('userName').value;
+            const email = document.getElementById('userEmail').value;
+            const age = document.getElementById('userAge').value;
+
+            // Final check before storing
+            if (name && email.includes("@") && age>18) {
+                sessionStorage.setItem('userName',name);
+                sessionStorage.setItem('userEmail',email);
+                sessionStorage.setItem('userAge',age);
+                alert("Data saved successfully to sessionStorage!");
+            } else {
+                alert("Please fix errors before submitting.");
+            }
+        }
+    </script>
+</body>
+
+</html>

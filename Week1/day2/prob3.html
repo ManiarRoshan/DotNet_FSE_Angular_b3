@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Enrollment Form</title>
+</head>
+<body>
+
+    <h2>Enrollment Form</h2>
+
+    <label for="enrollmentProgress">Enrollment Progress:</label>
+    <progress id="enrollmentProgress" value="40" max="100">40%</progress>
+    <br><br>
+
+    <form action="/submit-enrollment" method="post">
+        
+        
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required placeholder="Enter here....">
+        <br><br>
+
+
+        <label>Choose a Course:</label><br>
+        <input list="courseList" id="courses" name="courses" required placeholder="Type to search...">
+        <datalist id="courseList">
+            <option>Web Development Fundamentals</option>
+            <option>Advanced Python Programming</option>
+            <option>Data Science Basics</option>
+            <option>UI/UX Design Principles</option>
+        </datalist>
+        <br><br>
+
+    
+        <label for="skillLevel">Skill Level (0-100):</label><br>
+        <input type="range" id="skillLevel" name="skillLevel" min="0" max="100" value="50"><br>
+        <meter min="0" max="100" value="50" low="30" high="70" optimum="100">Skill</meter>
+        <br><br>
+
+        
+        <label for="experience">Years of Experience:</label><br>
+        <input type="number" id="experience" name="experience" min="0" max="20" required>
+        <br><br>
+
+        <input type="submit" value="Submit Enrollment">
+    </form>
+
+</body>
+</html>

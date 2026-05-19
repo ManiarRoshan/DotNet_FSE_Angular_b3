@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        #message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Employee Data Viewer</h1>
+
+    <div class="container">
+        <label for="jobRoleDropdown">Select Job Role:</label>
+        <select id="jobRoleDropdown">
+            <option>All Employees</option>
+            <option>Manager</option>
+            <option>Salesman</option>
+            <option>Developer</option>
+            <option>Tester</option>
+        </select>
+        <button onclick="displayEmployees()">Show Emps</button>
+    </div>
+
+    <table id="employeeTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Job Role</th>
+                <th>Salary</th>
+            </tr>
+        </thead>
+        <tbody id="employeeTableBody">
+          
+        </tbody>
+    </table>
+
+    <p id="message"></p>
+
+    <script>
+        const employees = [
+            { id: 101, name: "Alice", job: "Manager", salary: 60000 },
+            { id: 102, name: "Bob", job: "Salesman", salary: 45000 },
+            { id: 103, name: "Carol", job: "Developer", salary: 55000 },
+            { id: 104, name: "David", job: "Manager", salary: 62000 },
+            { id: 105, name: "Eva", job: "Tester", salary: 50000 },
+            { id: 106, name: "Frank", job: "Salesman", salary: 48000 },
+        ];
+        function displayEmployees() {
+            const dropdown= document.getElementById("jobRoleDropdown");
+            const selectedRole= dropdown.value;
+            const tableBody= document.getElementById("employeeTableBody");
+            const messageArea= document.getElementById("message");
+
+
+            tableBody.innerHTML = "";
+            messageArea.textContent = "";
+
+            const filteredEmployees=(selectedRole==="All Employees")
+                ? employees
+                : employees.filter(emp=>emp.job===selectedRole);
+
+            if (filteredEmployees.length > 0) {
+                filteredEmployees.forEach(employee => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+                        <td>${employee.id}</td>
+                        <td>${employee.name}</td>
+                        <td>${employee.job}</td>
+                        <td>${employee.salary}</td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                messageArea.textContent = "No employees found for the selected job role.";
+            }
+        }
+    </script>
+
+</body>
+
+</html>

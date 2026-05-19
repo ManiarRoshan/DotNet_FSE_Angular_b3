@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inheritance</title>
+</head>
+<body>
+    <h1>Inheritance</h1>
+    <script>
+        class Vehicle {
+            constructor(brand, speed) {
+                this.brand = brand;
+                this.speed = speed;
+            }
+            displayInfo() {
+                document.write(`Vehicle Brand:${this.brand}<br/>Max Speed:${this.speed}mph<hr>`);
+            }
+        }
+        class Car extends Vehicle {
+            constructor(brand, speed, fuelType) {
+                super(brand, speed);
+                this.fuelType = fuelType;
+            }
+            showCarDetails() {
+                document.write(`This is a car running on ${this.fuelType}.`);
+            }
+        }
+        const myCar = new Car('XUV', 120, 'Electric');
+        myCar.displayInfo();
+        myCar.showCarDetails();
+
+    </script>
+    
+</body>
+</html>

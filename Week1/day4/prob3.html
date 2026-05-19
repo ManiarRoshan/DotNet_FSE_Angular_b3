@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator </title>
+</head>
+<body>
+    <h1 style="text-align: center;color: rgb(121, 121, 236);background-color:black;
+    ">Simple Discount Calculator </h1>
+    <script>
+
+        let Amount=prompt("Enter the amount==");
+        let discount_rate;
+        if(Amount >=5000 ){
+            discount_rate = 0.20;
+        }else if(Amount >=3000 ){
+            discount_rate = 0.10;
+
+        }else{
+            discount_rate = 0;
+        }
+
+        let discount_amount=Amount*discount_rate;
+        let Final_pay=Amount-discount_amount;
+
+        document.write("The purchase Amount-->",Amount,"<br>","<br>")
+        
+        document.write("The discount for amount was-->",discount_amount,"<br>","<br>")
+
+        document.write("Final amount have to pay-->",Final_pay)
+
+    </script>
+</body>
+</html>

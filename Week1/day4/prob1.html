@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Design Assessment</title>
+    
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+            transition: background-color 0.3s ease;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            background: #333;
+        }
+
+        nav ul li {
+            padding: 15px 25px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            
+            body {
+                background-color: #e0f7fa;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+            nav ul {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul li {
+                border-bottom: 1px solid #444;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Responsive Assessment</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <div class="content">
+        <h2>Mobile Responsiveness Test</h2>
+        <p>
+            This page is designed to adapt to your screen size. If you are on a desktop, 
+            try resizing your browser window or use the <strong>Browser Responsive Mode</strong> (F12) 
+            to see the changes!
+        </p>
+        <p>
+            When the screen width drops below <strong>600px</strong>:
+        </p>
+        <ul>
+            <li>The background color will turn light blue.</li>
+            <li>The font size will decrease for better readability.</li>
+            <li>The horizontal menu will stack vertically.</li>
+        </ul>
+    </div>
+
+</body>
+</html>

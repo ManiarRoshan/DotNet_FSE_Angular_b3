@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Signal Simulator </title>
+</head>
+<body>
+    <h1 style="font-family: 'Times New Roman', Times, serif;
+    color: chocolate;
+    text-align: center;">
+    Traffic signal</h1>
+    <br>
+    <br>
+    <input id="a" type="text" placeholder="Enter the Signal Color" >
+    <button onclick="abc()">Check Signal</button>
+    <script>
+        function abc(){
+            let signal=document.getElementById("a").value;
+        switch(signal){
+            case "Red":
+                console.log("STOP");
+                break;
+            case "Yellow":
+                console.log("Warning");
+                break;
+            case "Green":
+                console.log("Let's Go");
+                break;
+            default:
+                console.log("Invalid Signal")
+        }
+
+        }
+        
+        
+    </script>
+    
+</body>
+</html>

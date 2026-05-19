@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <button onclick="getLocation()">Get My Location</button>
+    <p id="output"></p>
+    <h3>History (Last 5)</h3>
+    <ul id="history"></ul>
+    <script>
+        window.onload=displayHistory;
+
+        function getLocation(){
+            if(navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(showPosition,showError);
+            }else{
+                document.getElementById("output").innerHTML="Geolocation not supported.";
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById("output").innerHTML=`Lat:${lat},Lon:${lon}`;
+            saveLocation(lat,lon);
+        }
+
+        function showError(error) {
+            const output = document.getElementById("output");
+            switch (error.code) {
+                case error.PERMISSION_DENIED: output.innerHTML = "Permission denied."; break;
+                case error.POSITION_UNAVAILABLE: output.innerHTML = "Location unavailable."; break;
+                case error.TIMEOUT: output.innerHTML = "Request timed out."; break;
+            }
+        }
+
+        function saveLocation(lat,lon) {
+            let history=JSON.parse(localStorage.getItem("locHistory"))||[];
+            history.push({lat:lat.toFixed(4),lon:lon.toFixed(4),time:new Date().toLocaleTimeString()});
+            if(history.length>5)history.shift();
+            localStorage.setItem("locHistory",JSON.stringify(history));
+            displayHistory();
+        }
+
+        function displayHistory(){
+            let history = JSON.parse(localStorage.getItem("locHistory"))||[];
+            const list = document.getElementById("history");
+            list.innerHTML="";
+            history.forEach(loc=>{
+                let li=document.createElement("li");
+                li.innerText=`${loc.lat}${loc.lon}(${loc.time})`;
+                list.appendChild(li);
+            });
+        }
+
+    </script>
+</body>
+
+</html>

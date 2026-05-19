@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Student Profile Manager </title>
+</head>
+<body>
+
+    <h1>Student Profile Manager</h1>
+    <hr>
+
+    <div>
+        <label for="newMarksInput">Enter new marks:</label>
+        <input type="number" id="newMarksInput" min="0" max="100">
+        <button onclick="handleMarksUpdate()">Update Marks</button>
+    </div>
+
+    <div id="studentProfileDisplay" class="profile-container">
+        <!-- Student profile will be displayed here dynamically -->
+    </div>    
+    <hr>
+    <script>
+        let student = {
+        name: "raj",
+        rollNo: 11,
+        marks: 85};
+
+        function  updateStudentProfile(studentObj){
+            let disdiv=document.getElementById("studentProfileDisplay");
+            disdiv.innerHTML="";
+
+        }
+//////////////////////////Still code req
+    </script>
+    
+</body>
+</html>

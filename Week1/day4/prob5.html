@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Analysis </title>
+</head>
+<body>
+    <h1>Number Analysis Tool</h1>
+    <br>
+    <p>Check in console</p>
+    <script>
+        let num = 7; 
+        let sign =(num>0)?"Positive":(num<0)?"Negative":"Zero";
+        if(num%2==0) {
+            console.log("Even Number");
+        }else{
+            console.log("Odd Number");
+        }
+
+        if(num>= 1){
+            for (let i=1;i<=num;i++) {
+                console.log(i);
+            }
+        }else{
+            console.log("Number is less than 1, no sequence to print.");
+        }
+    </script>
+    
+</body>
+</html>

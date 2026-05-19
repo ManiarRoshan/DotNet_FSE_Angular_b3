@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+</head>
+<body>
+    <div style="text-align: center; margin-top: 50px;">
+        <h1>Counter: <span id="counterValue">0</span></h1>
+        <button id="incrementBtn">Increment</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+    <script >
+        // Global variable to store counter value
+let counter = 0;
+
+// DOM elements
+const counterDisplay = document.getElementById('counterValue');
+const incrementBtn = document.getElementById('incrementBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+// Function to update DOM
+function updateDisplay() {
+    counterDisplay.innerText = counter;
+}
+
+// Function to increment counter (accepts step)
+function incrementCounter(step) {
+    counter += step;
+    updateDisplay();
+}
+
+// Event Listeners
+incrementBtn.addEventListener('click', () => {
+    incrementCounter(1); // Increment by 1
+});
+
+resetBtn.addEventListener('click', () => {
+    counter = 0; // Reset global variable
+    updateDisplay();
+});
+
+    </script>
+</body>
+</html>

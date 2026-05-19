@@ -1,0 +1,21 @@
+.head{
+    text-transform: uppercase;
+    font-family: sans-serif;
+}
+.list{
+    background-color: #6fc19d;
+    color: #f0ecec; 
+    padding: 25px; 
+    border: 5px solid #020202; 
+    border-radius: 10px;
+    
+}
+li{
+    background-color: #ffffff;
+    color: #01080f; 
+    padding: 20px; 
+    font-size: 10px;
+    font-style: sans-serif;
+    border: 2px solid #ede7e7;
+    border-radius: 10px;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="search-container">
+        <input type="text" id="productSearch" placeholder="Search products...">
+        <ul id="productList"></ul>
+    </div>
+
+    <script>
+        // 1. Predefined Array (The "State")
+        const products = [
+            { id: 1, name: "Wireless Mouse" },
+            { id: 2, name: "Mechanical Keyboard" },
+            { id: 3, name: "Gaming Monitor" },
+            { id: 4, name: "USB-C Hub" }
+        ];
+
+        // 2. DOM Elements
+        const searchInput = document.querySelector("#productSearch");
+        const listContainer = document.querySelector("#productList");
+
+        // 3. Render Function (DOM Manipulation)
+        // Uses documentFragment or template strings for performance
+        const renderProducts = (filteredList) => {
+            if (filteredList.length === 0) {
+                listContainer.innerHTML = `<li>No Results Found</li>`;
+                return;
+            }
+
+            listContainer.innerHTML = filteredList
+                .map(product => `<li class="product-item" data-id="${product.id}">${product.name}</li>`)
+                .join('');
+        };
+
+        // 4. Filtering Logic (Real-time filtering)
+        const handleSearch = (event) => {
+            const searchTerm = event.target.value.toLowerCase();
+            const filtered = products.filter(p =>
+                p.name.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filtered);
+        };
+
+        // 5. Event Delegation (Technical Constraint)
+        // Instead of adding listeners to every <li>, we add one to the parent
+        listContainer.addEventListener('click', (event) => {
+            if (event.target.classList.contains('product-item')) {
+                console.log(`Clicked product ID: ${event.target.dataset.id}`);
+            }
+        });
+
+        // Initialize
+        searchInput.addEventListener('input', handleSearch); // "input" event for real-time
+        renderProducts(products); // Initial render
+
+    </script>
+
+</body>
+
+</html>

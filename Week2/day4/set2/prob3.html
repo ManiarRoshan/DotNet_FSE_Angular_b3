@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polymorphism</title>
+</head>
+<body>
+    <script>
+ 
+    class Payment {
+            pay(amount) {
+                document.write(`Processing payment of ₹${amount}...<br/>`);
+            }
+        }
+        class CreditCardPayment extends Payment {
+            pay(amount) {
+                document.write(`Credit Card → <br/>Paid ₹${amount} using Credit Card<br/><hr>`);
+            }
+        }
+        class UPIPayment extends Payment {
+            pay(amount) {
+                document.write(`UPI → <br/>Paid ₹${amount} using UPI<br/><hr>`);
+            }
+        }
+
+        class CashPayment extends Payment {
+            pay(amount) {
+                document.write(`Cash → <br/>Paid ₹${amount} in Cash`);
+            }
+        }
+
+        const myCC = new CreditCardPayment();
+        const myUPI = new UPIPayment();
+        const myCash = new CashPayment();
+
+        myCC.pay(500);
+        myUPI.pay(1200);
+        myCash.pay(100);
+
+    </script>
+    
+</body>
+</html>

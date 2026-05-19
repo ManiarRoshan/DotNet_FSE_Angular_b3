@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic FAQ Section</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        .faq-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .faq-item {
+            background-color: #fff;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #eee;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+
+        .faq-question.active {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            color: #555;
+            line-height: 1.5;
+        }
+    </style>
+
+<body>
+
+    <div class="faq-container">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-question">What is jQuery?</div>
+            <div class="faq-answer">jQuery is a fast, small, and feature-rich JavaScript library designed to simplify
+                HTML DOM traversal and manipulation.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What is the click() event?</div>
+            <div class="faq-answer">The click() method attaches an event handler function to an HTML element, which
+                executes when the user clicks on it.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">How does slideToggle() work?</div>
+            <div class="faq-answer">It toggles between slideUp() and slideDown() for selected elements, providing a
+                smooth vertical animation.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What is DOM traversal?</div>
+            <div class="faq-answer">It is the process of moving through the document object model (DOM) tree to find
+                elements based on their relation to others.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Why use CSS class manipulation?</div>
+            <div class="faq-answer">It separates behavior (jQuery) from appearance (CSS), making the code cleaner and
+                easier to maintain.</div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.faq-question').click(function () {
+                // $(this).toggleClass();
+                // $('.faq-question').hide();
+                $(this).next('.faq-answer').slideToggle();
+                $(this).toggleClass("active");
+                $('.faq-answer').not($(this).next()).slideUp(300);
+            $('.faq-question').not(this).removeClass('active');
+            });
+        });
+
+    </script>
+</body>
+
+</html>

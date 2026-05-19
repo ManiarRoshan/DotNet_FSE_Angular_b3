@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encapsulation</title>
+</head>
+<body>
+    <h1>Encapulsation</h1>
+    <script>
+        class Student {
+            constructor(name,rollNumber,marks) {
+                this.name=name;
+                this.rollNumber=rollNumber;
+                this.marks=marks;
+            }
+            getDetails() {
+                document.write(`Name:${this.name}<br/>`);
+                document.write(`Roll Number:${this.rollNumber}<br/>`);
+                document.write(`Marks:${this.marks}<br/><br/>`);
+            }
+            getGrade() {
+                if(this.marks>=90) {
+                    return 'A';
+                }else if(this.marks>=75) {
+                    return 'B';
+                }else if(this.marks>=50) {
+                    return 'C';
+                }else {
+                    return 'Fail';
+                }
+            }
+        }
+
+        const s1 = new Student("Raj", 101, 85);
+        const s2 = new Student("Ram", 102, 45);
+        document.write("--- Student 1 Details ---<br/>");
+        s1.getDetails();
+        document.write(`<hr>Grade:${s1.getGrade()}<br/><hr>`);
+      
+        document.write("<br/>\n--- Student 2 Details ---<br/>");
+        s2.getDetails();
+        document.write(`<hr>Grade:${s2.getGrade()}<hr>`);
+
+    </script>
+    
+</body>
+</html>

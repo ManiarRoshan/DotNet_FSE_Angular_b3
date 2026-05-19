@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+</head>
+<body>
+    <h3>Weather Data Fetcher (LEVEL-2)</h3>
+    <hr/> 
+
+    <button onclick="fn_getWeather()">Get Weather</button>
+    <br/><br/>
+    
+    <div id="report" style="border:2px solid blue; padding:30px; font-family: Arial;">
+        <i>Data will appear here...</i>
+    </div>
+	 
+    <!-- <script>	 
+        const reportObj = document.getElementById("report");
+        
+        // FIX: The URL MUST include latitude, longitude, and current_weather parameters
+        const url = "https://api.open-meteo.com";
+
+        const fn_getWeather = async () => {
+            try {
+                let response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP Error ${response.status}`);
+                }
+
+                let data = await response.json();
+                displayWeather(data.current_weather);
+                
+            } catch (error) {
+                reportObj.innerHTML = `<b style="color:red;">Error: ${error.message}</b>`;
+            }
+        };
+
+        const displayWeather = (weather) => {
+            reportObj.innerHTML = `
+                <p><b>Temperature:</b> ${weather.temperature}°C</p>
+                <p><b>Wind Speed:</b> ${weather.windspeed} km/h</p>
+                <p><b>Report Time:</b> <span style="color:blue;">${weather.time}</span></p>
+            `;
+        };
+    </script>	  -->
+
+
+<script>
+  const reportObj = document.getElementById("report");
+  // FIX: Added valid API parameters (latitude, longitude, current_weather)
+  const url = "https://api.open-meteo.com/v1/forecast?latitude=13.90&longitude=79.29&current_weather=true";
+
+  const fn_getWeather = async () => {
+    try {
+      reportObj.innerHTML = "Loading...";
+      let response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`HTTP Error ${response.status}`);
+      }
+      let data = await response.json();
+      displayWeather(data.current_weather);
+    } catch (error) {
+      reportObj.innerHTML = `<b style="color:red;">Error: ${error.message}</b>`;
+    }
+  };
+
+  const displayWeather = (weather) => {
+    reportObj.innerHTML = `
+      <p><b>Temperature:</b> ${weather.temperature}°C</p>
+      <p><b>Wind Speed:</b> ${weather.windspeed} km/h</p>
+      <p><b>Report Time:</b> <span style="color:blue;">${weather.time}</span></p>
+    `;
+  };
+</script>
+
+</body>
+</html>
