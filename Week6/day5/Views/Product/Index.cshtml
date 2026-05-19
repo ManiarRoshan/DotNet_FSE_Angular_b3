@@ -1,0 +1,53 @@
+﻿@model List<Product>
+
+
+<a class="btn btn-primary btn-sm"
+       asp-controller="Product"
+       asp-action="Create">
+    Create
+</a>
+<h2 class="mb-3">Product List</h2>
+
+
+<table class="table table-bordered table-hover" id="productTable">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr onclick="rowClick(this)">
+                <td>@product.Id</td>
+                <td class="pname">@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Category</td>
+                <td>
+                    <a class="btn btn-primary btn-sm"
+                           asp-controller="Product"
+                           asp-action="Details"
+                           asp-route-id="@product.Id">
+                        View
+                    </a>
+                    <a class="btn btn-primary btn-sm"
+                           asp-controller="Product"
+                           asp-action="Edit"
+                           asp-route-id="@product.Id">
+                        Edit
+                    </a>
+                    <a class="btn btn-primary btn-sm"
+                           asp-controller="Product"
+                           asp-action="Delete"
+                           asp-route-id="@product.Id">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

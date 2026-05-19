@@ -1,0 +1,30 @@
+﻿@model Product
+
+<h2 class="mb-3">Product Details</h2>
+
+@if (Model == null)
+{
+    <div class="alert alert-danger">
+        <h4>Product not found</h4>
+        <p>The requested product does not exist.</p>
+    </div>
+
+    <a class="btn btn-secondary" asp-action="Index" asp-controller="Product">
+        Back to List
+    </a>
+}
+else
+{
+    <div class="card shadow p-4">
+        <h4 id="pname">@Model.Name</h4>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Price:</strong> ₹ <span id="price">@Model.Price</span></p>
+        <p><strong>Category:</strong> @Model.Category</p>
+
+        <br /><br />
+
+        <a class="btn btn-primary btn-sm" asp-action="Index" asp-controller="Product">
+            Back to List
+        </a>
+    </div>
+}

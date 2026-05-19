@@ -1,0 +1,32 @@
+﻿@model Product
+
+<h2 class="mb-3">Product Details</h2>
+
+@if (Model == null)
+{
+    <div class="alert alert-danger">
+        <h4>Product not found</h4>
+        <p>The requested product does not exist.</p>
+    </div>
+
+    <a class="btn btn-secondary" asp-action="Index" asp-controller="Product">
+        Back to List
+    </a>
+}
+else
+{
+    <div class="card shadow p-4">
+        <h4 id="pname">@Model.Name</h4>
+        <p><strong>Id:</strong> @Model.Id</p>
+        <p><strong>Price:</strong> ₹ <span id="price">@Model.Price</span></p>
+        <p><strong>Category:</strong> @Model.Category</p>
+
+        <br /><br />
+        <form asp-action="delete" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <p>Do you want to delete this employee details?</p>
+            <button type="submit" class="btn btn-success">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+}
