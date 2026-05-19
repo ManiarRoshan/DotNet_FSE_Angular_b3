@@ -1,0 +1,20 @@
+﻿@model IEnumerable<EF_Relationship.Models.Course>
+
+<h2>Course List</h2>
+
+<table border="1">
+    <tr>
+        <th>CourseId</th>
+
+        <th>CourseName</th>
+        <th>Total Students</th>
+    </tr>
+    @foreach (var course in Model)
+    {
+        <tr>
+            <td>@course.CourseId</td>
+            <td>@course.CourseName</td>
+            <td>@course.Students.Count()</td>
+        </tr>
+    }
+</table>
