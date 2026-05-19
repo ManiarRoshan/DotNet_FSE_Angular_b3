@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  <!-- Code analysis settings (defaults are already good for most apps) -->
+  <EnableNETAnalyzers>true</EnableNETAnalyzers>
+  <!-- Default: true for .NET 8 -->
+  <AnalysisMode>Recommended</AnalysisMode>
+  <!-- Options: None, Default, Minimum, Recommended, All -->
+  <AnalysisLevel>latest</AnalysisLevel>
+  <!-- Or pin to "8.0" to lock rules -->
+  <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  <!-- Optional: treat warnings as errors -->
+  <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  <!-- Enable style rules in CI builds -->
+	
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Roshan\source\repos\ContactMgmtConsoleApp\ContactMgmtConsoleApp\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Roshan\source\repos\ContactMgmtConsoleApp\ContactMgmtConsoleApp\.editorconfig" />
+  </ItemGroup>
+
+</Project>
