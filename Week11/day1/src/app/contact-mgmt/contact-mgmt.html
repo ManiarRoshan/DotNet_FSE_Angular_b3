@@ -1,0 +1,51 @@
+<div style="padding: 20px; font-family: Arial, sans-serif;">
+  <h1>Marvel Contact Mgmt</h1>
+
+  <!-- Two-Way Binding -->
+  <input 
+    type="text" 
+    [(ngModel)]="search" 
+    placeholder="Search by name or email..." 
+    style="padding: 10px; width: 300px; margin-bottom: 20px;"
+  >
+
+  <table border="1" style="width: 100%; border-collapse: collapse;">
+    <thead style="background: #eee;">
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let contact of contacts | contactFilter:search | slice:0:limit">
+        
+
+        <td>{{ contact.name | titlecase }}</td>
+        <td>{{ contact.email | lowercase }}</td>
+        
+
+        <td>{{ contact.phone | phoneFormat }}</td>
+        
+        <!-- Property Binding  -->
+         <td>
+          <b [style.color]="contact.isActive ? 'green' : 'red'">
+            {{ contact.isActive | status }}
+          </b>
+        </td>
+        
+        <!-- Event Binding ((click)) -->
+        <td>
+          <button (click)="toggleStatus(contact)">Change Status</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <button (click)="limit = 10" *ngIf="limit === 5" style="margin-top: 10px;">Show All</button>
+  <button (click)="limit = 5" *ngIf="limit === 10" style="margin-top: 10px;">Show Less</button>
+</div>
