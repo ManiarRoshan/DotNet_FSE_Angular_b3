@@ -1,0 +1,60 @@
+<div class="page-header">
+  <div class="container">
+    <h2>Secure Checkout</h2>
+    <p>Complete your purchase</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="checkout-form-box">
+        <h5>Shipping Details</h5>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+          <div class="mb-3"><label>Full Name</label><input class="form-control" formControlName="name"></div>
+          <div class="mb-3"><label>Email</label><input class="form-control" formControlName="email"></div>
+          <div class="mb-3"><label>Phone</label><input class="form-control" formControlName="phone"></div>
+          <div class="mb-3"><label>Address</label><textarea class="form-control" formControlName="address" rows="3"></textarea></div>
+          <div class="row">
+            <div class="col">
+              <div class="mb-3"><label>City</label><input class="form-control" formControlName="city"></div>
+            </div>
+            <div class="col">
+              <div class="mb-3"><label>PIN Code</label><input class="form-control" formControlName="pincode"></div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="mb-3">
+            <label class="form-label">Payment Method</label>
+            <div class="payment-options">
+              <label class="payment-option">
+                <input type="radio" formControlName="paymentMethod" value="cod">
+                <span>Cash on Delivery</span>
+              </label>
+              <label class="payment-option">
+                <input type="radio" formControlName="paymentMethod" value="upi">
+                <span>UPI</span>
+              </label>
+              <label class="payment-option">
+                <input type="radio" formControlName="paymentMethod" value="card">
+                <span>Card</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary-shopez w-100" [disabled]="loading">{{loading?'Placing...':'Place Order Securely'}}</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="cart-summary-box">
+        <h5>Order Summary</h5>
+        <div *ngFor="let item of cartItems" class="summary-row"><span>{{item.product.name}} x{{item.quantity}}</span><span>₹{{item.product.price*item.quantity | number:'1.0-0'}}</span></div>
+        <div class="summary-row"><span>Subtotal</span><span>₹{{subtotal | number:'1.0-0'}}</span></div>
+        <div class="summary-row"><span>Shipping</span><span>{{shipping===0?'FREE':'₹'+shipping}}</span></div>
+        <div class="summary-row summary-total"><span>Total</span><span>₹{{total | number:'1.0-0'}}</span></div>
+      </div>
+    </div>
+  </div>
+</div>

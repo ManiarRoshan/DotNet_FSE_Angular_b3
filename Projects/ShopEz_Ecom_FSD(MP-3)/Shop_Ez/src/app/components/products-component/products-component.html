@@ -1,0 +1,47 @@
+<div class="page-header">
+  <div class="container">
+    <h2>All Products</h2>
+    <p>Browse our collection</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="filter-section">
+    <div class="category-filters">
+      <label>Filter by category:</label>
+      <div>
+        <button *ngFor="let cat of categories" 
+                class="btn btn-sm me-2 mb-2" 
+                [class.btn-primary]="selectedCategory===cat" 
+                [class.btn-outline-secondary]="selectedCategory!==cat" 
+                (click)="filterByCategory(cat)">{{cat}}</button>
+        <button *ngIf="selectedCategory || searchTerm" 
+                class="btn btn-sm btn-secondary me-2 mb-2" 
+                (click)="clearFilter()">Clear Filter</button>
+      </div>
+    </div>
+    <div class="search-box">
+      <input type="text" class="form-control" placeholder="Search products..." [(ngModel)]="searchTerm" (input)="onSearchChange()">
+    </div>
+  </div>
+
+  <div class="loading-spinner" *ngIf="loading"><div class="spinner"></div></div>
+  <div class="row g-4" *ngIf="!loading">
+    <div class="col-md-6 col-lg-3" *ngFor="let p of displayedProducts">
+      <div class="product-card">
+        <img [src]="getImageUrl(p)" 
+             (error)="$event.target.src='assets/images/default-product.svg'">
+        <div class="card-body">
+          <h5 class="card-title">{{p.name}}</h5>
+          <p class="card-text">{{p.description | slice:0:60}}...</p>
+          <p class="product-price">₹{{p.price | number:'1.0-0'}}</p>
+          <a [routerLink]="['/product', p.productId]" class="btn-view">View Details</a>
+          <button class="btn-cart" (click)="addToCart(p)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center mt-4" *ngIf="showLoadMore">
+    <button class="btn-primary-shopez" (click)="loadMore()">Load More</button>
+  </div>
+</div>

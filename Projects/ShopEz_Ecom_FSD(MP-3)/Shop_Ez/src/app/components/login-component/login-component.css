@@ -1,0 +1,21 @@
+.auth-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #0F3460 100%); padding: 1rem; }
+.auth-container { width: 100%; max-width: 450px; }
+.auth-box { background: #fff; padding: 3rem 2rem; border-radius: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+.auth-header { text-align: center; margin-bottom: 2rem; }
+.auth-header h1 { color: var(--navy); font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+.auth-header p { color: var(--text-muted); }
+.form-group { margin-bottom: 1.5rem; }
+.form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.88rem; color: var(--text-dark); }
+.form-group input { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.9rem; font-family: 'Poppins', sans-serif; transition: border-color 0.3s; }
+.form-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,107,53,0.12); }
+.error-message { color: var(--danger); font-size: 0.85rem; margin-top: 0.25rem; }
+.btn-submit { width: 100%; background: var(--primary); color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.95rem; }
+.btn-submit:hover:not(:disabled) { background: var(--primary-dark); }
+.btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+.auth-footer { text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.auth-footer p { color: var(--text-muted); }
+.auth-footer a { color: var(--primary); text-decoration: none; font-weight: 600; cursor: pointer; }
+.auth-footer a:hover { text-decoration: underline; }
+.toast { position: fixed; top: 24px; right: 24px; background: var(--danger); color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 0.9rem; font-weight: 500; display: none; z-index: 9999; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+.toast.show { display: block; animation: slideUp 0.3s ease; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }

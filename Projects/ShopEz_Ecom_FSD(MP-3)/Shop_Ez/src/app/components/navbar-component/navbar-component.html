@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg shopez-navbar fixed-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/home">Shop<span>EZ</span></a>
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
+      <ul class="navbar-nav ms-auto align-items-center gap-2">
+        <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/products" routerLinkActive="active">Products</a></li>
+        <li class="nav-item"><a class="nav-link cart-icon-btn" routerLink="/cart">Cart <span class="cart-badge" *ngIf="cartCount>0">{{cartCount}}</span></a></li>
+
+        <!-- Logged out links -->
+        <li class="nav-item" *ngIf="!auth.isLoggedIn()"><a class="nav-link" routerLink="/login">Login</a></li>
+        <li class="nav-item" *ngIf="!auth.isLoggedIn()"><a class="nav-link" routerLink="/register">Register</a></li>
+
+        <!-- Customer only links -->
+        <li class="nav-item" *ngIf="auth.isLoggedIn() && !auth.isAdmin()">
+          <a class="nav-link" routerLink="/orders">My Orders</a>
+        </li>
+
+        <!-- Admin only link -->
+        <li class="nav-item" *ngIf="auth.isLoggedIn() && auth.isAdmin()">
+          <a class="nav-link" routerLink="/admin-dashboard">Admin Dashboard</a>
+        </li>
+
+        <!-- User Profile Dropdown (Angular‑managed) -->
+        <li class="nav-item dropdown" *ngIf="auth.isLoggedIn()">
+          <a class="nav-link dropdown-toggle" href="javascript:void(0)" (click)="toggleUserDropdown($event)">
+            👤 {{ getUserDisplayName() }}
+          </a>
+          <div class="dropdown-menu" [class.show]="userDropdownOpen">
+            <div class="dropdown-item-text"><strong>{{ getUserDisplayName() }}</strong></div>
+            <div class="dropdown-item-text">{{ auth.getCurrentUser()?.email || 'No email' }}</div>
+            <div class="dropdown-item-text">Role: {{ auth.getCurrentUser()?.role || 'Customer' }}</div>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" style="cursor: pointer;" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div style="height: 76px;"></div>

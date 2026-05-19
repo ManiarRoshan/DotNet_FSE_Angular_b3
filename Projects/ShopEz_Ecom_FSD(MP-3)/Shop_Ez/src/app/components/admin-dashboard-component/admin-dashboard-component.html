@@ -1,0 +1,27 @@
+<div class="admin-dashboard">
+  <div class="container mt-4">
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'store'" (click)="activeTab = 'store'">🛒 Store</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [class.active]="activeTab === 'admin'" (click)="activeTab = 'admin'">⚙️ Admin Panel</a>
+      </li>
+    </ul>
+
+    <div *ngIf="activeTab === 'store'">
+      <ul class="nav nav-pills mb-3">
+        <li class="nav-item"><a class="nav-link" [class.active]="storeView === 'products'" (click)="storeView = 'products'">Products</a></li>
+        <li class="nav-item"><a class="nav-link" [class.active]="storeView === 'cart'" (click)="storeView = 'cart'">Cart</a></li>
+        <li class="nav-item"><a class="nav-link" [class.active]="storeView === 'orders'" (click)="storeView = 'orders'">My Orders</a></li>
+      </ul>
+      <div *ngIf="storeView === 'products'"><app-products-component></app-products-component></div>
+      <div *ngIf="storeView === 'cart'"><app-cart-component></app-cart-component></div>
+      <div *ngIf="storeView === 'orders'"><app-orders-component></app-orders-component></div>
+    </div>
+
+    <div *ngIf="activeTab === 'admin'">
+      <app-admin-component></app-admin-component>
+    </div>
+  </div>
+</div>

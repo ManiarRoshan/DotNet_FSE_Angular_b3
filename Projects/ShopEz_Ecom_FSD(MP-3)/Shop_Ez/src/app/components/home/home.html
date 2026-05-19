@@ -1,0 +1,92 @@
+<!-- Hero / Carousel section -->
+<div class="hero-section">
+  <div class="container">
+    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" *ngFor="let p of featuredProducts; let i = index" data-bs-target="#productCarousel"
+          [attr.data-bs-slide-to]="i" [class.active]="i===0"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item" *ngFor="let p of featuredProducts; let i = index" [class.active]="i===0">
+          <img [src]="getImageUrl(p)" class="d-block w-100" style="height: 400px; object-fit: cover;"
+            (error)="$event.target.src='assets/images/default-product.svg'">
+          <div class="carousel-caption d-none d-md-block">
+            <h5>{{p.name}}</h5>
+            <p>₹{{p.price | number:'1.0-0'}}</p>
+            <a [routerLink]="['/product', p.productId]" class="btn-hero">View Details</a>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Welcome Banner for logged-in users -->
+<div class="container mt-4" *ngIf="auth.isLoggedIn()">
+  <div class="welcome-banner">
+    <div>
+      <h3>Welcome back, <span class="user-name">{{ auth.getCurrentUser()?.name }}</span>!</h3>
+      <p>Discover fresh arrivals curated just for you.</p>
+    </div>
+    <div class="welcome-buttons">
+      <a routerLink="/products" class="btn-welcome">Browse Products</a>
+      <a routerLink="/orders" class="btn-welcome-outline">My Orders</a>
+    </div>
+  </div>
+</div>
+
+<!-- Category section with search -->
+<div class="container" style="margin-top: 2rem;">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <h2 class="section-title">Shop by <span>Category</span></h2>
+    <div class="search-box">
+      <input type="text" class="form-control" placeholder="Search products..." [(ngModel)]="searchTerm"
+        (input)="onSearchChange()">
+    </div>
+    <button *ngIf="selectedCategory || searchTerm" class="btn-sm btn-secondary" (click)="clearFilter()">Clear
+      Filter</button>
+  </div>
+  <div class="section-divider"></div>
+  <div class="row g-3">
+    <div class="col-6 col-md-3" *ngFor="let cat of categories">
+      <a class="cat-card" (click)="filterByCategory(cat.name)" style="cursor: pointer;">
+        <i>{{cat.icon}}</i>
+        <span>{{cat.name}}</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Featured Products / Product Grid -->
+<div class="container" style="margin-top: 3rem;">
+  <h2 class="section-title">Featured <span>Products</span></h2>
+  <div class="section-divider"></div>
+  <div class="loading-spinner" *ngIf="loading">
+    <div class="spinner"></div>
+  </div>
+  <div class="row g-4" *ngIf="!loading">
+    <div class="col-md-6 col-lg-4" *ngFor="let p of displayedProducts">
+      <div class="product-card">
+        <img [src]="getImageUrl(p)" (error)="$event.target.src='assets/images/default-product.svg'">
+        <div class="card-body">
+          <h5 class="card-title">{{p.name}}</h5>
+          <p class="card-text">{{p.description | slice:0:60}}...</p>
+          <p class="product-price">₹{{p.price | number:'1.0-0'}}</p>
+          <a [routerLink]="['/product', p.productId]" class="btn-view">View Details</a>
+          <button class="btn-cart" (click)="addToCart(p)" [disabled]="p.stock === 0">
+            {{ p.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-center mt-4" *ngIf="showLoadMore">
+    <button class="btn-primary-shopez" (click)="loadMore()">Load More</button>
+  </div>
+</div>

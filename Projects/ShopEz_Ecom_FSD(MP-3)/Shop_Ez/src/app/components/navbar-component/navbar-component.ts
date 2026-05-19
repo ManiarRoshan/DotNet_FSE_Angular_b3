@@ -1,0 +1,64 @@
+import { Component, inject, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart-service';
+import { Subscription } from 'rxjs';
+
+@Component({
+  selector: 'app-navbar-component',
+  standalone: true,
+  imports: [CommonModule, RouterLink, RouterLinkActive],
+  templateUrl: './navbar-component.html',
+  styleUrls: ['./navbar-component.css']
+})
+export class NavbarComponent implements OnInit, OnDestroy {
+  auth = inject(AuthService);
+  cartService = inject(CartService);
+  router = inject(Router);
+  cartCount = 0;
+  isMenuOpen = false;
+  userDropdownOpen = false;
+  private cartSub!: Subscription;
+
+  ngOnInit() {
+    this.cartCount = this.cartService.getCartCount();
+    this.cartSub = this.cartService.cart$.subscribe(() => {
+      this.cartCount = this.cartService.getCartCount();
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.cartSub) this.cartSub.unsubscribe();
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  toggleUserDropdown(event: Event) {
+    event.stopPropagation();
+    this.userDropdownOpen = !this.userDropdownOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeDropdownOnOutsideClick(event: Event) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.dropdown')) {
+      this.userDropdownOpen = false;
+    }
+  }
+
+  getUserDisplayName(): string {
+    const user = this.auth.getCurrentUser();
+    if (user && user.name) return user.name;
+    if (user && user.email) return user.email.split('@')[0];
+    return 'User';
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/home']);
+    this.userDropdownOpen = false;
+  }
+}

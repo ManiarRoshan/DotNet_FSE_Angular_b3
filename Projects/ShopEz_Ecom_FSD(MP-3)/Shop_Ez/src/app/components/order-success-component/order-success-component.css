@@ -1,0 +1,65 @@
+.success-page {
+      min-height: 70vh;
+      display: flex;
+      align-items: center;
+      padding: 2rem 0;
+    }
+    .success-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .success-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: var(--navy);
+    }
+    .order-details {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .success-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .btn-primary, .btn-secondary {
+      padding: 0.6rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--primary);
+      color: var(--primary);
+    }
+    @media (max-width: 640px) {
+      .success-card { padding: 1.5rem; }
+      .success-buttons { flex-direction: column; }
+    }
