@@ -1,0 +1,72 @@
+﻿@model Contact_Mgmt_Dapper.Models.ContactInfo
+
+@{
+    ViewData["Title"] = "Add New Contact";
+}
+
+<h2>Add New Contact</h2>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mb-2">
+                <label asp-for="FirstName" class="control-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="LastName" class="control-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="EmailId" class="control-label">Email Address</label>
+                <input asp-for="EmailId" class="form-control" type="email" />
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="MobileNo" class="control-label">Mobile Number</label>
+                <input asp-for="MobileNo" class="form-control" type="number" />
+                <span asp-validation-for="MobileNo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label asp-for="Designation" class="control-label"></label>
+                <input asp-for="Designation" class="form-control" />
+                <span asp-validation-for="Designation" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label class="control-label">Company</label>
+                <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.Companies">
+                    <option value="">-- Select Company --</option>
+                </select>
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-2">
+                <label class="control-label">Department</label>
+                <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.Departments">
+                    <option value="">-- Select Department --</option>
+                </select>
+                <span asp-validation-for="DepartmentId" class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <input type="submit" value="Save Contact" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

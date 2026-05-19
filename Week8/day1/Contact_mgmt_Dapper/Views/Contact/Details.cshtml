@@ -1,0 +1,55 @@
+﻿@model Contact_Mgmt_Dapper.Models.ContactInfo
+
+@{
+    ViewData["Title"] = "Contact Details";
+}
+
+<div class="container mt-4">
+    <h2>Contact Details</h2>
+    <hr />
+    
+    @if (Model == null)
+    {
+        <div class="alert alert-danger">Contact not found.</div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Full Name:</div>
+                    <div class="col-sm-9">@Model.FirstName @Model.LastName</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Email:</div>
+                    <div class="col-sm-9">@Model.EmailId</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Mobile:</div>
+                    <div class="col-sm-9">@Model.MobileNo</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Designation:</div>
+                    <div class="col-sm-9">@Model.Designation</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Company:</div>
+                    <div class="col-sm-9">@Model.CompanyName</div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-sm-3 fw-bold">Department:</div>
+                    <div class="col-sm-9">@Model.DepartmentName</div>
+                </div>
+            </div>
+            <div class="card-footer text-muted">
+                <a asp-action="Edit" asp-route-id="@Model.ContactId" class="btn btn-warning">Edit</a>
+                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    }
+</div>

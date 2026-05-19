@@ -1,0 +1,20 @@
+﻿@model IEnumerable<StudentCourse_one2many_Dapper.Models.Student>
+
+<h2>Students With Course</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Student Id</th>
+        <th>Student Name</th>
+        <th>Course Name</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.StudentId</td>
+            <td>@item.StudentName</td>
+            <td>@item.Course.CourseName</td>
+        </tr>
+    }
+</table>
