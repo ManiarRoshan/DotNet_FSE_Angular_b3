@@ -1,0 +1,100 @@
+# ShopEZ microservices — run from this folder: docker compose up --build
+# Apply EF migrations to the SQL container database (ECommerceDb) before first use.
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "Your_password123!"
+    ports:
+      - "14333:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  userservice:
+    build:
+      context: .
+      dockerfile: UserService/Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=sql;Database=ECommerceDb;User Id=sa;Password=Your_password123!;TrustServerCertificate=True"
+      Jwt__Key: "SuperSecretKeyForShopEZProject2026!CheckLength"
+      Jwt__Issuer: "ShopEZ"
+      Jwt__Audience: "ShopEZUsers"
+    depends_on:
+      - sql
+
+  productservice:
+    build:
+      context: .
+      dockerfile: ProductService/Dockerfile
+    volumes:
+      - ./ProductService/wwwroot/images:/app/wwwroot/images
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=sql;Database=ECommerceDb;User Id=sa;Password=Your_password123!;TrustServerCertificate=True"
+      Jwt__Key: "SuperSecretKeyForShopEZProject2026!CheckLength"
+      Jwt__Issuer: "ShopEZ"
+      Jwt__Audience: "ShopEZUsers"
+    depends_on:
+      - sql
+
+  cartservice:
+    build:
+      context: .
+      dockerfile: CartService/Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=sql;Database=ECommerceDb;User Id=sa;Password=Your_password123!;TrustServerCertificate=True"
+      Jwt__Key: "SuperSecretKeyForShopEZProject2026!CheckLength"
+      Jwt__Issuer: "ShopEZ"
+      Jwt__Audience: "ShopEZUsers"
+      Services__ProductService: "http://productservice:8080"
+    depends_on:
+      - sql
+      - productservice
+
+  orderservice:
+    build:
+      context: .
+      dockerfile: OrderService/Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: "Server=sql;Database=ECommerceDb;User Id=sa;Password=Your_password123!;TrustServerCertificate=True"
+      Jwt__Key: "SuperSecretKeyForShopEZProject2026!CheckLength"
+      Jwt__Issuer: "ShopEZ"
+      Jwt__Audience: "ShopEZUsers"
+      Services__ProductService: "http://productservice:8080"
+    depends_on:
+      - sql
+      - productservice
+
+  apigateway:
+    build:
+      context: .
+      dockerfile: ApiGateway/Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      OCELOT_CONFIG: Ocelot.Docker.json
+      Jwt__Key: "SuperSecretKeyForShopEZProject2026!CheckLength"
+      Jwt__Issuer: "ShopEZ"
+      Jwt__Audience: "ShopEZUsers"
+    depends_on:
+      - userservice
+      - productservice
+      - cartservice
+      - orderservice
+
+  shopez-web:
+    build:
+      context: ../Shop_Ez
+      dockerfile: Dockerfile
+    ports:
+      - "4200:80"
+    depends_on:
+      - apigateway
+
+volumes:
+  sql_data:

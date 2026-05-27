@@ -1,0 +1,12 @@
+<Solution>
+  <Project Path="ApiGateway/ApiGateway.csproj" />
+  <Project Path="ApiGateway.Tests/ApiGateway.Tests.csproj" />
+  <Project Path="CartService/CartService.csproj" />
+  <Project Path="CartService.Tests/CartService.Tests.csproj" />
+  <Project Path="OrderService/OrderService.csproj" />
+  <Project Path="OrderService.Tests/OrderService.Tests.csproj" />
+  <Project Path="ProductService/ProductService.csproj" />
+  <Project Path="ProductService.Tests/ProductService.Tests.csproj" />
+  <Project Path="UserService/UserService.csproj" />
+  <Project Path="UserService.Tests/UserService.Tests.csproj" />
+</Solution>
