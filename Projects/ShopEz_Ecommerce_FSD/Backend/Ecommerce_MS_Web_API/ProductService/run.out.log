@@ -1,0 +1,21 @@
+Using launch settings from D:\uGE_DotNet_FSE_Angular\Projects\ShopEzz_Ecommerce_FSD\Ecommerce_MS_Web_API\ProductService\Properties\launchSettings.json...
+ProductService JWT Settings:
+  Issuer: ShopEZ
+  Audience: ShopEZUsers
+  Key (first 10 chars): SuperSecre...
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5002
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: D:\uGE_DotNet_FSE_Angular\Projects\ShopEzz_Ecommerce_FSD\Ecommerce_MS_Web_API\ProductService
+ProductService: JWT Token Validated Successfully
+ProductService: JWT Token Validated Successfully
+ProductService: JWT Token Validated Successfully
+ProductService: JWT Token Validated Successfully
+ProductService: JWT Token Validated Successfully
+ProductService: JWT Token Validated Successfully
+ProductService: JWT Token Validated Successfully
+ProductService: JWT Token Validated Successfully
