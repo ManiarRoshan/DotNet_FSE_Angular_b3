@@ -1,0 +1,11 @@
+.btn-checkout {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.btn-checkout:hover {
+    background: var(--primary-dark);
+}

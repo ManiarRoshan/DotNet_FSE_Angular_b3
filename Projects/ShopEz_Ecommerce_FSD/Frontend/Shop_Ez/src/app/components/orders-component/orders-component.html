@@ -1,0 +1,85 @@
+<div class="page-header">
+  <div class="container">
+    <h2>My Orders</h2>
+    <p>Track, view details, or cancel your orders</p>
+  </div>
+</div>
+
+<div class="container orders-page">
+  <app-page-back-button></app-page-back-button>
+  @if (loading) {
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+  } @else if (orders.length === 0) {
+  <div class="empty-state">
+    <i class="bi bi-box-seam"></i>
+    <p>No orders yet</p>
+    <a routerLink="/products" class="btn-primary-shopez">Shop Now</a>
+  </div>
+  } @else {
+  @for (order of orders; track order.orderId) {
+  <div class="order-detail-card customer-order-card">
+    <div class="order-detail-header">
+      <div>
+        <h3>Order #{{ formatOrderDisplayId(order.orderId) }}</h3>
+        <p class="order-meta"><strong>User ID:</strong> {{ order.userId }}</p>
+        <p class="order-meta"><strong>Date:</strong> {{ orderDateValue(order) | date:'dd MMM yyyy, h:mm:ss a' }}</p>
+        <p class="order-meta"><strong>Ship to:</strong> {{ order.shippingAddress }}</p>
+      </div>
+      <div class="order-badges">
+        <span class="order-status-pill" [class.cancelled]="isCancelled(order)">
+          {{ getDisplayStatus(order) }}
+        </span>
+        <span class="payment-method-badge">Payment: {{ order.paymentMethod | uppercase }}</span>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="order-items-table">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Unit Price</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of order.orderItems; track item.productId) {
+          <tr>
+            <td>
+              <div class="product-cell">
+                <img [src]="getImageUrl(item.productImageUrl)"
+                  (error)="$event.target.src='assets/images/default-product.svg'" alt="">
+                <span>{{ item.productName }}</span>
+              </div>
+            </td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.price | number:'1.0-0' }}</td>
+            <td>₹{{ item.subtotal | number:'1.0-0' }}</td>
+          </tr>
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-end"><strong>Grand Total</strong></td>
+            <td><strong class="total-amount">₹{{ order.totalAmount | number:'1.0-0' }}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="order-card-actions">
+      @if (canCancel(order)) {
+      <button type="button" class="btn-cancel-order" (click)="cancelOrder(order)"
+        [disabled]="cancellingId === order.orderId">
+        @if (cancellingId === order.orderId) { Cancelling... } @else { <i class="bi bi-x-circle"></i> Cancel Order }
+      </button>
+      }
+      <a routerLink="/products" class="btn-small-outline">Continue Shopping</a>
+    </div>
+  </div>
+  }
+  }
+</div>

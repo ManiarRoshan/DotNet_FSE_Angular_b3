@@ -1,0 +1,33 @@
+<div class="success-page">
+  <div class="container">
+    <div class="success-card">
+      <div class="success-icon">✅</div>
+      <h1>Order placed successfully!</h1>
+      <p>Thank you for shopping with ShopEZ. You will receive a confirmation shortly.</p>
+
+      <div class="order-details">
+        <div class="detail-row">
+          <span>Order ID:</span>
+          <strong>#{{ formatOrderId(orderData.orderId) }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Order total:</span>
+          <strong>₹{{ orderData.totalAmount | number:'1.0-0' }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Order status:</span>
+          <strong>Confirmed</strong>
+        </div>
+        <div class="detail-row">
+          <span>Estimated delivery:</span>
+          <strong>3 – 5 business days</strong>
+        </div>
+      </div>
+
+      <div class="success-buttons">
+        <a routerLink="/orders" class="btn-primary">View My Orders</a>
+        <a routerLink="/products" class="btn-secondary">Continue Shopping</a>
+      </div>
+    </div>
+  </div>
+</div>

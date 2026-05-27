@@ -1,0 +1,80 @@
+<div class="admin-dashboard-page">
+  <div class="container py-4">
+    @if (!activeView) {
+      <h1 class="admin-page-title">Admin Dashboard</h1>
+      <p class="admin-page-subtitle">Manage your store and operations from one place.</p>
+
+      @if (statsLoading) {
+        <div class="admin-stats-loading"><div class="spinner"></div></div>
+      } @else {
+        <div class="admin-stats-row">
+          <div class="admin-stat-card stat-products">
+            <span class="stat-icon"><i class="bi bi-box-seam"></i></span>
+            <span class="stat-value">{{ totalProducts }}</span>
+            <span class="stat-label">Total Products</span>
+          </div>
+          <div class="admin-stat-card stat-stock">
+            <span class="stat-icon"><i class="bi bi-check-circle"></i></span>
+            <span class="stat-value">{{ inStockCount }}</span>
+            <span class="stat-label">In Stock</span>
+          </div>
+          <div class="admin-stat-card stat-low">
+            <span class="stat-icon"><i class="bi bi-exclamation-triangle"></i></span>
+            <span class="stat-value">{{ lowStockCount }}</span>
+            <span class="stat-label">Low Stock</span>
+          </div>
+          <div class="admin-stat-card stat-orders">
+            <span class="stat-icon"><i class="bi bi-receipt"></i></span>
+            <span class="stat-value">{{ orderCount }}</span>
+            <span class="stat-label">Orders</span>
+          </div>
+        </div>
+
+        @if (inventoryPreview.length > 0) {
+          <section class="admin-inventory-section">
+            <h2 class="admin-section-title">Store Inventory</h2>
+            <p class="admin-section-sub">Live catalog snapshot from your product database</p>
+            <div class="admin-inventory-grid">
+              @for (p of inventoryPreview; track p.productId) {
+                <div class="inventory-tile">
+                  <img [src]="getImageUrl(p)" [alt]="p.name" (error)="$event.target.src='assets/images/default-product.svg'">
+                  <div class="inventory-tile-info">
+                    <span class="inventory-name">{{ p.name }}</span>
+                    <span class="inventory-meta">₹{{ p.price | number:'1.0-0' }} · Stock {{ p.stock }}</span>
+                  </div>
+                </div>
+              }
+            </div>
+          </section>
+        }
+      }
+
+      <div class="admin-hub-cards">
+        <button type="button" class="admin-hub-card store-card" (click)="openView('store')">
+          <span class="hub-icon"><i class="bi bi-shop"></i></span>
+          <h2>Store</h2>
+          <p>Browse products, cart, and customer experience</p>
+          <span class="hub-cta">Open Store <i class="bi bi-arrow-right"></i></span>
+        </button>
+        <button type="button" class="admin-hub-card panel-card" (click)="openView('admin')">
+          <span class="hub-icon"><i class="bi bi-gear"></i></span>
+          <h2>Admin Panel</h2>
+          <p>Products, orders, and user role management</p>
+          <span class="hub-cta">Open Panel <i class="bi bi-arrow-right"></i></span>
+        </button>
+      </div>
+    } @else {
+      <div class="admin-view-header">
+        <app-page-back-button label="Back to dashboard" [onBack]="closeView"></app-page-back-button>
+        <h2 class="admin-view-title">{{ activeView === 'store' ? 'Store' : 'Admin Panel' }}</h2>
+      </div>
+
+      @if (activeView === 'store') {
+        <app-products-component></app-products-component>
+      }
+      @if (activeView === 'admin') {
+        <app-admin-component></app-admin-component>
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg shopez-navbar fixed-top">
+  <div class="container">
+    <a class="navbar-brand" routerLink="/home">Shop<span>EZ</span></a>
+    <button class="navbar-toggler" type="button" (click)="toggleMenu()" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" [class.show]="isMenuOpen">
+      <ul class="navbar-nav ms-auto align-items-center gap-1 gap-lg-2">
+        <li class="nav-item">
+          <a class="nav-link nav-icon-link" routerLink="/home" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" title="Home">
+            <i class="bi bi-house-door"></i><span class="nav-text">Home</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-icon-link" routerLink="/products" routerLinkActive="active" title="Products">
+            <i class="bi bi-grid"></i><span class="nav-text">Products</span>
+          </a>
+        </li>
+        @if (auth.isLoggedIn() && !auth.isAdmin()) {
+        <li class="nav-item">
+          <a class="nav-link nav-icon-link" routerLink="/orders" routerLinkActive="active" title="My Orders">
+            <i class="bi bi-bag-check"></i><span class="nav-text">My Orders</span>
+          </a>
+        </li>
+        }
+        <li class="nav-item">
+          <a class="nav-link nav-icon-link cart-nav-link" routerLink="/cart" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}" title="Cart">
+            <i class="bi bi-cart3"></i><span class="nav-text">Cart</span>
+            @if (auth.isLoggedIn() && cartCount > 0) {
+            <span class="cart-badge">{{ cartCount }}</span>
+            }
+          </a>
+        </li>
+
+        @if (!auth.isLoggedIn()) {
+        <li class="nav-item"><a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/register" routerLinkActive="active">Register</a></li>
+        }
+
+        @if (auth.isLoggedIn() && auth.isAdmin()) {
+        <li class="nav-item">
+          <a class="nav-link nav-icon-link" routerLink="/admin-dashboard" routerLinkActive="active"
+            title="Admin Dashboard" (mouseenter)="prefetchAdminDashboard()" (focus)="prefetchAdminDashboard()">
+            <i class="bi bi-speedometer2"></i><span class="nav-text">Admin</span>
+          </a>
+        </li>
+        }
+
+        @if (auth.isLoggedIn()) {
+        <li class="nav-item dropdown">
+          <button type="button" class="nav-link dropdown-toggle user-dropdown-btn" (click)="toggleUserDropdown($event)">
+            <i class="bi bi-person-circle"></i>
+            <span class="user-label">{{ getUserDisplayName() }}</span>
+            <i class="bi bi-chevron-down dropdown-chevron" [class.open]="userDropdownOpen"></i>
+          </button>
+          <div class="dropdown-menu" [class.show]="userDropdownOpen">
+            <div class="dropdown-item-text"><strong>{{ getUserDisplayName() }}</strong></div>
+            <div class="dropdown-item-text text-muted small">{{ auth.getCurrentUser()?.email || 'No email' }}</div>
+            <div class="dropdown-item-text small">Role: {{ auth.getCurrentUser()?.role || 'Customer' }}</div>
+            <div class="dropdown-divider"></div>
+            <button type="button" class="dropdown-item text-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </button>
+          </div>
+        </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

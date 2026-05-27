@@ -1,0 +1,13 @@
+@if (message) {
+  <div class="toast-container">
+    <div class="toast-notification" [ngClass]="'toast-' + type">
+      <div class="toast-icon">
+        @if (type === 'success') { ✅ }
+        @if (type === 'error') { ❌ }
+        @if (type === 'info') { ℹ️ }
+      </div>
+      <div class="toast-message">{{ message }}</div>
+      <button class="toast-close" (click)="closeToast()">✕</button>
+    </div>
+  </div>
+}

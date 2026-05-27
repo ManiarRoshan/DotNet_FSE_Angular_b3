@@ -1,0 +1,75 @@
+<div class="page-header">
+  <div class="container">
+    <h2>All Products</h2>
+    <p>Browse our collection</p>
+  </div>
+</div>
+
+<div class="container">
+  <app-page-back-button></app-page-back-button>
+  <div class="filter-section">
+    <div class="category-filters">
+      <label>Filter by category:</label>
+      <div>
+        @for (cat of categories; track cat) {
+        <button class="btn btn-sm me-2 mb-2" [class.btn-primary]="selectedCategory===cat"
+          [class.btn-outline-secondary]="selectedCategory!==cat" (click)="filterByCategory(cat)">
+          {{cat}}
+        </button>
+        }
+        @if (selectedCategory || searchTerm || sortBy !== 'default') {
+        <button class="btn btn-sm btn-secondary me-2 mb-2" (click)="clearFilter()">Clear Filter</button>
+        }
+      </div>
+    </div>
+    <div class="search-box">
+      <input type="text" class="form-control" placeholder="Search products..." [(ngModel)]="searchTerm"
+        (input)="onSearchChange()">
+    </div>
+    <div class="sort-box">
+      <label for="sortProducts" class="sort-label">Sort by</label>
+      <select id="sortProducts" class="form-control form-select sort-select" [(ngModel)]="sortBy"
+        (ngModelChange)="onSortChange()">
+        <option value="default">Default</option>
+        <option value="priceAsc">Price: Low to High</option>
+        <option value="priceDesc">Price: High to Low</option>
+      </select>
+    </div>
+  </div>
+
+  @if (loading) {
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+  } @else {
+  <div class="row g-4 products-grid-row">
+    @for (p of displayedProducts; track p.productId) {
+    <div class="col-12 col-md-6 col-lg-4">
+      <div class="product-card" [class.unavailable-card]="isUnavailable(p)">
+        <img [src]="getImageUrl(p)" (error)="$event.target.src='assets/images/default-product.svg'">
+        <div class="card-body">
+          <h5 class="card-title">{{p.name}}</h5>
+          <p class="card-text">{{p.description | slice:0:60}}...</p>
+          <p class="product-price">₹{{p.price | number:'1.0-0'}}</p>
+          @if (isUnavailable(p)) {
+          <p class="unavailable-label"><i class="bi bi-slash-circle"></i> No longer available to buy</p>
+          } @else if (p.stock === 0) {
+          <p class="stock-hint out">Out of stock</p>
+          } @else if (p.stock <= 5) { <p class="stock-hint low">Only {{ p.stock }} left — order soon</p>
+            }
+            <a [routerLink]="['/product', p.productId]" class="btn-view">View Details</a>
+            <button class="btn-cart" (click)="addToCart(p)" [disabled]="isUnavailable(p) || p.stock === 0">
+              {{ isUnavailable(p) ? 'Unavailable' : (p.stock === 0 ? 'Out of Stock' : 'Add to Cart') }}
+            </button>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  @if (showLoadMore) {
+  <div class="text-center mt-4">
+    <button class="btn-primary-shopez" (click)="loadMore()">Load More</button>
+  </div>
+  }
+  }
+</div>

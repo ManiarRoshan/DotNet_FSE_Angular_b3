@@ -1,0 +1,218 @@
+<div class="admin-panel">
+  <div class="admin-tabs">
+    <button type="button" [class.active]="tab==='products'" (click)="tab='products'">Products</button>
+    <button type="button" [class.active]="tab==='orders'" (click)="tab='orders'">Orders</button>
+    <button type="button" [class.active]="tab==='users'" (click)="tab='users'; loadUsers()">Users</button>
+  </div>
+
+  @if (tab === 'products') {
+  <div>
+    <div class="tab-header">
+      <h2>Products</h2>
+      <button type="button" class="btn-add" (click)="openModal()">+ Add Product</button>
+    </div>
+    <p class="admin-note">Use <strong>Delete</strong> to soft-remove items. Removed products appear at the bottom of
+      this list and only show on the storefront when customers search for them.</p>
+    <div class="table-responsive admin-table-wrap">
+      <table class="products-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Status</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of products; track p.productId) {
+          <tr [class.row-deleted]="p.isDeleted">
+            <td><img [src]="getImageUrl(p)" width="50" height="50"
+                (error)="$event.target.src='assets/images/default-product.svg'" alt=""></td>
+            <td>{{ p.name }}</td>
+            <td>₹{{ p.price | number:'1.0-0' }}</td>
+            <td>{{ p.stock }}</td>
+            <td>
+              @if (p.isDeleted) {
+              <span class="stock-badge deleted-badge">Removed</span>
+              } @else if (p.stock === 0) {
+              <span class="stock-badge out-of-stock">Out of Stock</span>
+              } @else {
+              <span class="stock-badge">In Stock</span>
+              }
+            </td>
+            <td>{{ p.category || '-' }}</td>
+            <td class="action-cell">
+              <button type="button" class="btn-edit" (click)="edit(p)" [disabled]="p.isDeleted">Edit</button>
+              @if (!p.isDeleted) {
+              <button type="button" class="btn-delete" (click)="deleteProduct(p)">Delete</button>
+              }
+            </td>
+          </tr>
+          }
+          @if (products.length === 0) {
+          <tr>
+            <td colspan="7" class="text-center">No products found.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  }
+
+  @if (tab === 'orders') {
+  <div>
+    <div class="tab-header">
+      <h2>All Orders</h2>
+    </div>
+    <div class="table-responsive admin-table-wrap">
+      @for (o of orders; track o.orderId) {
+      <div class="order-detail-card">
+        <div class="order-detail-header">
+          <div>
+            <strong>Order #{{ formatOrderDisplayId(o.orderId) }}</strong>
+            <span class="order-meta">User ID: {{ o.userId }}</span>
+            <span class="order-meta">{{ orderDateValue(o) | date:'dd MMM yyyy, h:mm:ss a' }}</span>
+          </div>
+          <span class="order-status-pill" [class.cancelled]="o.orderStatus === 'Cancelled'">
+            {{ o.orderStatus || 'Placed' }}
+          </span>
+        </div>
+        <table class="order-items-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of o.orderItems; track item.productId) {
+            <tr>
+              <td>{{ item.productName }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>₹{{ item.price | number:'1.0-0' }}</td>
+              <td>₹{{ item.subtotal | number:'1.0-0' }}</td>
+            </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" class="text-end"><strong>Order Total</strong></td>
+              <td><strong>₹{{ o.totalAmount | number:'1.0-0' }}</strong></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      }
+      @if (orders.length === 0) {
+      <p class="text-center text-muted">No orders yet.</p>
+      }
+    </div>
+  </div>
+  }
+
+  @if (tab === 'users') {
+  <div>
+    <div class="tab-header">
+      <h2>Users Inventory</h2>
+    </div>
+    <div class="table-responsive admin-table-wrap">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>User ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Current Role</th>
+            <th>Update Role</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of users; track u.userId; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ u.userId }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td><span class="role-badge" [class.admin]="u.role === 'Admin'">{{ u.role }}</span></td>
+            <td>
+              <button type="button" class="btn-role-toggle" (click)="toggleUserRole(u)"
+                [disabled]="updatingUserId === u.userId">
+                @if (updatingUserId === u.userId) {
+                <span>...</span>
+                } @else {
+                <i class="bi bi-check2-circle"></i> Make {{ u.role === 'Admin' ? 'Customer' : 'Admin' }}
+                }
+              </button>
+            </td>
+          </tr>
+          }
+          @if (users.length === 0 && !usersLoading) {
+          <tr>
+            <td colspan="6" class="text-center">No users found.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+  }
+
+  <div class="modal-overlay" [class.show]="showModal">
+    <div class="modal-content admin-modal">
+      <div class="modal-header">
+        <h2>{{ editMode ? 'Edit Product' : 'Add Product' }}</h2>
+        <button type="button" class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="form">
+          <div class="form-group"><label>Name</label><input formControlName="name" class="form-control"></div>
+          <div class="form-group"><label>Description</label><textarea formControlName="description" rows="3"
+              class="form-control"></textarea></div>
+          <div class="form-row modal-form-row">
+            <div class="form-group"><label>Price (₹)</label><input type="number" formControlName="price"
+                class="form-control"></div>
+            <div class="form-group"><label>Stock</label><input type="number" formControlName="stock"
+                class="form-control"></div>
+          </div>
+          <div class="form-group">
+            <label>Product Image</label>
+            <input type="file" (change)="onFileSelected($event)" class="form-control" accept="image/*">
+            @if (selectedFile) {
+            <div class="mt-2">
+              <img [src]="selectedFile | objectUrl" class="image-preview" style="max-width: 100px; max-height: 100px;"
+                alt="Preview">
+            </div>
+            }
+            @if (form.value.imageUrl && !selectedFile) {
+            <div class="mt-2">
+              <img [src]="getFullImageUrl(form.value.imageUrl)" class="image-preview"
+                style="max-width: 100px; max-height: 100px;" alt="Current">
+            </div>
+            }
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select formControlName="category" class="form-control">
+              <option value="">Select Category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Mobiles">Mobiles</option>
+              <option value="Smart Home">Smart Home</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-cancel" (click)="closeModal()">Cancel</button>
+        <button type="button" class="btn-save" (click)="save()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>

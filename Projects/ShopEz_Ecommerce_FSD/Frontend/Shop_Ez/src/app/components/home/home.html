@@ -1,0 +1,130 @@
+<!-- Welcome Hero -->
+<section class="home-hero">
+  <div class="home-hero-overlay"></div>
+  <div class="container home-hero-content">
+    <p class="hero-eyebrow">Your trusted marketplace</p>
+    <h1 class="hero-title">Welcome to <span>ShopEZ</span></h1>
+    <p class="hero-quote">"Quality products, smart prices — everything you need in one place."</p>
+    <p class="hero-sub">Discover electronics, smart home gear, accessories and more. Free shipping on orders above ₹999.</p>
+    <div class="hero-actions">
+      <a routerLink="/products" class="btn-hero-primary">Shop Now <i class="bi bi-arrow-right"></i></a>
+      <a routerLink="/products" class="btn-hero-outline">Explore Products</a>
+    </div>
+    @if (auth.isLoggedIn()) {
+      <p class="hero-greeting">Hello, <strong>{{ auth.getCurrentUser()?.name }}</strong> — glad to see you again!</p>
+    }
+  </div>
+</section>
+
+<!-- Featured Products carousel -->
+@if (featuredProducts.length > 0) {
+  <section class="featured-carousel-section">
+    <div class="container">
+      <div class="featured-carousel-header">
+        <h2 class="section-title">Featured <span>Products</span></h2>
+        <p class="section-sub">Handpicked deals — swipe to explore</p>
+        <div class="section-divider"></div>
+      </div>
+      <div class="featured-carousel-card">
+        <div id="productCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+          <div class="carousel-indicators featured-indicators">
+            @for (p of featuredProducts; track p.productId; let i = $index) {
+              <button type="button" data-bs-target="#productCarousel" [attr.data-bs-slide-to]="i"
+                [class.active]="i === 0" [attr.aria-label]="'Slide ' + (i + 1)"></button>
+            }
+          </div>
+          <div class="carousel-inner">
+            @for (p of featuredProducts; track p.productId; let i = $index) {
+              <div class="carousel-item" [class.active]="i === 0">
+                <img [src]="getImageUrl(p)" class="d-block w-100 featured-slide-img"
+                  (error)="$event.target.src='assets/images/default-product.svg'" [alt]="p.name">
+                <div class="featured-slide-overlay">
+                  <div class="featured-slide-content">
+                    <span class="featured-slide-tag">Featured</span>
+                    <h3 class="featured-slide-title">{{ p.name }}</h3>
+                    <p class="featured-slide-price">₹{{ p.price | number:'1.0-0' }}</p>
+                    <a [routerLink]="['/product', p.productId]" class="btn-featured-view">
+                      View Details <i class="bi bi-arrow-right"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+          <button class="carousel-control-prev featured-control" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          </button>
+          <button class="carousel-control-next featured-control" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- Category section -->
+<div class="container home-section home-section-categories">
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <h2 class="section-title">Shop by <span>Category</span></h2>
+    <div class="search-box">
+      <input type="text" class="form-control" placeholder="Search products..." [(ngModel)]="searchTerm"
+        (input)="onSearchChange()">
+    </div>
+    @if (selectedCategory || searchTerm) {
+      <button class="btn-sm btn-secondary" (click)="clearFilter()">Clear Filter</button>
+    }
+  </div>
+  <div class="section-divider"></div>
+  <div class="row g-3">
+    @for (cat of categories; track cat.name) {
+      <div class="col-6 col-md-3">
+        <a class="cat-card" (click)="filterByCategory(cat.name)" style="cursor: pointer;">
+          <i>{{ cat.icon }}</i>
+          <span>{{ cat.name }}</span>
+        </a>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Product grid -->
+<div class="container home-section">
+  <h2 class="section-title">Trending <span>Now</span></h2>
+  <p class="section-sub">Handpicked deals — add to cart in one click</p>
+  <div class="section-divider"></div>
+  @if (loading) {
+    <div class="loading-spinner"><div class="spinner"></div></div>
+  } @else {
+    <div class="row g-4">
+      @for (p of displayedProducts; track p.productId) {
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card" [class.unavailable-card]="isUnavailable(p)">
+            <img [src]="getImageUrl(p)" (error)="$event.target.src='assets/images/default-product.svg'" [alt]="p.name">
+            <div class="card-body">
+              <h5 class="card-title">{{ p.name }}</h5>
+              <p class="card-text">{{ p.description | slice:0:60 }}...</p>
+              <p class="product-price">₹{{ p.price | number:'1.0-0' }}</p>
+              @if (isUnavailable(p)) {
+                <p class="unavailable-label"><i class="bi bi-slash-circle"></i> No longer available to buy</p>
+              } @else if (p.stock === 0) {
+                <p class="stock-hint out">Out of stock</p>
+              } @else if (p.stock <= 5) {
+                <p class="stock-hint low">Only {{ p.stock }} left</p>
+              }
+              <a [routerLink]="['/product', p.productId]" class="btn-view">View Details</a>
+              <button class="btn-cart" (click)="addToCart(p)" [disabled]="isUnavailable(p) || p.stock === 0">
+                {{ isUnavailable(p) ? 'Unavailable' : (p.stock === 0 ? 'Out of Stock' : 'Add to Cart') }}
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+    @if (showLoadMore) {
+      <div class="text-center mt-4">
+        <button class="btn-primary-shopez" (click)="loadMore()">Load More</button>
+      </div>
+    }
+  }
+</div>

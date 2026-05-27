@@ -1,0 +1,68 @@
+@if (product) {
+<div class="container my-5">
+  <app-page-back-button></app-page-back-button>
+  <div class="row g-4">
+    <div class="col-md-6">
+      <img [src]="getImageUrl()" class="details-img details-img-clickable" (click)="openLightbox()"
+        (error)="$event.target.src='assets/images/default-product.svg'" role="button" tabindex="0"
+        (keydown.enter)="openLightbox()" (keydown.space)="$event.preventDefault(); openLightbox()"
+        alt="{{ product.name }} — tap for full size">
+      <p class="image-hint text-muted small mt-2">Click the image to view full size</p>
+    </div>
+    <div class="col-md-6">
+      <div class="details-box">
+        <h2>{{product.name}}</h2>
+        <div class="details-price">₹{{product.price | number:'1.0-0'}}</div>
+        <p class="mt-3">{{product.description}}</p>
+        <p><strong>Category:</strong> {{product.category}}</p>
+        @if (product.stock === 0) {
+        <p class="stock-banner out"><strong>Out of stock</strong> — we will restock soon.</p>
+        } @else if (product.stock <= 5) { <p class="stock-banner low"><strong>Low stock:</strong> only {{ product.stock
+          }} left.</p>
+          } @else {
+          <p><strong>In stock:</strong> {{ product.stock }} units available</p>
+          }
+          <div class="quantity-selector mb-3">
+            <label>Quantity:</label>
+            <input type="number" [(ngModel)]="quantity" min="1" [max]="product.stock" class="form-control w-25 ms-2">
+          </div>
+          <button class="btn-cart w-auto px-4" (click)="addToCart()" [disabled]="product.stock === 0">
+            {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
+          </button>
+          <a routerLink="/products" class="btn-view ms-3">Back</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-section mt-5">
+    <h3 class="reviews-title">Customer reviews</h3>
+    <div class="reviews-summary mb-3">
+      <span class="stars" aria-hidden="true">★★★★☆</span>
+      <span class="ms-2 text-muted">Based on {{ displayReviews.length }} reviews for this catalog item</span>
+    </div>
+    <div class="row g-3">
+      @for (r of displayReviews; track r.author + r.date) {
+      <div class="col-md-6">
+        <div class="review-card">
+          <div class="review-header">
+            <strong>{{ r.author }}</strong>
+            <span class="review-stars">{{ starRow(r.rating) }}</span>
+          </div>
+          <p class="review-text">{{ r.text }}</p>
+          <small class="text-muted">{{ r.date }}</small>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
+}
+
+@if (lightboxOpen && product) {
+<div class="img-lightbox" role="dialog" aria-modal="true" aria-label="Product image full size"
+  (click)="closeLightbox()">
+  <button type="button" class="lightbox-close" (click)="closeLightbox($event)" aria-label="Close">×</button>
+  <img [src]="getImageUrl()" alt="" (click)="$event.stopPropagation()"
+    (error)="$event.target.src='assets/images/default-product.svg'">
+</div>
+}
